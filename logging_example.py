@@ -4,7 +4,7 @@ logging.basicConfig(level=logging.DEBUG, format='[%(asctime)-15s] [%(levelname)s
 
 from graphite_feeder import GraphiteFeeder
 
-server = GraphiteCollector("shamir.wu", prefix="myPrefix", delay=20)
+server = GraphiteFeeder("server.tld", prefix="myPrefix", delay=20)
 
 @server.metric()
 def myMetric():

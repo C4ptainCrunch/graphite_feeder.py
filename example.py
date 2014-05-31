@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from graphite_feeder import GraphiteFeeder
 
-server = GraphiteCollector("server.tld", prefix="test2", delay=20)
+server = GraphiteFeeder("server.tld", prefix="test2", delay=20)
 
 @server.metric()
 def myMetric():
