@@ -1,21 +1,21 @@
 from collector import GraphiteCollector
 
-server = GraphiteCollector("shamir.wu", prefix="my_prefix", delay=20)
+server = GraphiteCollector("shamir.wu", prefix="test2", delay=20)
 
 @server.metric()
-def my_metric():
+def myMetric():
     return 1234
 
-@server.metric(name="my_better_metric_name")
-def my_metric():
+@server.metric(name="betterMetric")
+def myOtherMetric():
     return 10
 
 
 @server.metric(multiple=True)
-def my_multiple_metric():
+def myMultipleMetric():
     return {
-        'sub_value' : 12,
-        'other_subvalue': 50
+        'subvalue' : 12,
+        'subvalue2': 50
     }
 
 

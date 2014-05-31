@@ -48,16 +48,20 @@ class GraphiteCollector(object):
         self.timeout = timeout
 
         self.metrics = {}
+        self.multiple = []
 
     def metric(self, name=None, multiple=False):
         if name == "":
             raise ValueError("The metric name can not be empty")
         elif callable(name):
             raise ValueError("The @metric decorator must be called with (). Eg:\n@server.metric()\ndef my_metric()")
+
         metric_name = name
+        mul = multiple
 
         def metric_decorator(fn):
             name = metric_name
+            multiple = mul
             # todo : multiples
             if name is None:
                 name = fn.__name__
@@ -70,6 +74,9 @@ class GraphiteCollector(object):
             log.debug("Registering new metric : {} (function {})".format(name, fn.__name__))
             self.metrics[name] = fn
 
+            if multiple:
+                self.multiple.append(name)
+
             return fn
 
         return metric_decorator
@@ -81,7 +88,13 @@ class GraphiteCollector(object):
                 for name, metric in self.metrics.iteritems():
                     log.debug("Mesuring {}".format(name))
                     data = metric()
-                    carbon.send(name, data)
+                    if not name in self.multiple:
+                        carbon.send(name, data)
+                    else:
+                        for sub_name, sub_data in data.iteritems():
+                            sub_name = sub_name.replace("_", ".").replace("..", "_")
+                            sub_name = name + "." + sub_name
+                            carbon.send(sub_name, sub_data)
         except socket.timeout:
             pass
 
