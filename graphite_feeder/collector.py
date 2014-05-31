@@ -43,7 +43,7 @@ class CarbonConnection(object):
             message = message.encode('utf-8')
         self.socket.sendall(message)
 
-class GraphiteCollector(object):
+class GraphiteFeeder(object):
 
     def __init__(self, server, port=2003, prefix=platform.node(), delay=10, timeout=2):
         self.server = server

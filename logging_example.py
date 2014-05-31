@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import logging
 logging.basicConfig(level=logging.DEBUG, format='[%(asctime)-15s] [%(levelname)s] %(message)s')
 
-from collector import GraphiteCollector
+from graphite_feeder import GraphiteFeeder
 
 server = GraphiteCollector("shamir.wu", prefix="myPrefix", delay=20)
 
