@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collector import GraphiteCollector
 
 server = GraphiteCollector("server.tld", prefix="test2", delay=20)

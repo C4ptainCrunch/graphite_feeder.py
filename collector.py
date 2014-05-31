@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 import platform
 import time
 import socket
 import logging
+import sys
 
 log = logging.getLogger(__name__)
+PY3 = sys.version_info.major == 3
 
 class Carbon(object):
 
@@ -36,6 +39,8 @@ class CarbonConnection(object):
         timestamp = int(time.time())
         message = "{} {} {}\n".format(name, data, timestamp)
         log.debug("Sending message:'{}'".format(message.strip()))
+        if PY3:
+            message = message.encode('utf-8')
         self.socket.sendall(message)
 
 class GraphiteCollector(object):
@@ -85,13 +90,13 @@ class GraphiteCollector(object):
     def _mesure(self):
         try:
             with Carbon(self.server, self.port, self.timeout) as carbon:
-                for name, metric in self.metrics.iteritems():
+                for name, metric in self.metrics.items():
                     log.debug("Mesuring {}".format(name))
                     data = metric()
                     if not name in self.multiple:
                         carbon.send(name, data)
                     else:
-                        for sub_name, sub_data in data.iteritems():
+                        for sub_name, sub_data in data.items():
                             sub_name = sub_name.replace("_", ".").replace("..", "_")
                             sub_name = name + "." + sub_name
                             carbon.send(sub_name, sub_data)
