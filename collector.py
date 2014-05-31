@@ -79,13 +79,14 @@ class GraphiteCollector(object):
         try:
             with Carbon(self.server, self.port, self.timeout) as carbon:
                 for name, metric in self.metrics.iteritems():
+                    log.debug("Mesuring {}".format(name))
                     data = metric()
                     carbon.send(name, data)
         except socket.timeout:
             pass
 
     def feed(self):
-        log.debug("Start the feeding loop")
+        log.info("Start the feeding loop")
         while True:
             log.debug("Start metric acquisition")
             start = time.time()
