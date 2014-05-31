@@ -1,6 +1,6 @@
 from collector import GraphiteCollector
 
-server = GraphiteCollector("shamir.wu", prefix="test2", delay=20)
+server = GraphiteCollector("server.tld", prefix="test2", delay=20)
 
 @server.metric()
 def myMetric():

@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.DEBUG, format='[%(asctime)-15s] [%(levelname)s
 
 from collector import GraphiteCollector
 
-server = GraphiteCollector("shamir.wu", prefix="myPrefix", delay=20)
+server = GraphiteCollector("server.tld", prefix="myPrefix", delay=20)
 
 @server.metric()
 def myMetric():
