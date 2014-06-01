@@ -12,7 +12,7 @@ It's only purpose is to allow the user to define some functions that will be per
 ## Example
 
 This example grabs a metric named `myMetric` every 20 seconds and pushes the result to `server.tld`. That's all.
-```
+```python
 from graphite_feeder import GraphiteFeeder
 
 server = GraphiteFeeder("server.tld", prefix="myMachine", delay=20)
@@ -41,14 +41,14 @@ Example :
 ## Configuration
 All the configuration is done at the creation of `GraphiteFeeder`
 
-```
+```python
 GraphiteFeeder(self, server, port=2003, prefix=platform.node(), delay=10, timeout=2)
 ```
 * `server` : your graphite server
 * `port` : your graphite server port
 * `prefix` will add a prefix to all of your metrics
 
-```
+```python
 server = GraphiteFeeder(..., prefix="myPrefix", ...)
 @server.metric()
 def myName():
@@ -66,7 +66,7 @@ The `.metric()` decorator accepts some optional arguments :
 `name` overrites the metric name (defaults to the function name)
 
 Example:
-```
+```python
 @server.metric(name="myBetterName")
 def myIgnoredName():
     return 1
@@ -76,7 +76,7 @@ Will send a metric named `myBetterName` instead of `myIgnoredName`
 `multiple` : if set to `True` your function has to return a dict of values (instead of a value). Each key of the dict will be a "sub-metric"
 
 Example:
-```
+```python
 @server.metric(multiple=True)
 def myMetric():
     return {
